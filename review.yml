@@ -1,0 +1,115 @@
+aid: warrant-dev
+name: Warrant
+review:
+  question: Does Warrant expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Warrant's public surface was a
+    request/response REST API over HTTPS (api.warrant.dev, v1 and v2) plus an
+    embeddable self-service dashboard. Access checks were performed with
+    synchronous HTTP calls (POST /v2/authorize) - a client-initiated
+    request/response, not a server-push stream. There was no documented
+    WebSocket (ws:// or wss://) or SSE transport on Warrant's own API to model,
+    and the service is now retired (sunset 2025-11-15), so no AsyncAPI contract
+    was created.
+findings:
+  summary: |
+    Warrant did not publish a documented public WebSocket API. Warrant was a
+    centralized, fine-grained authorization (FGA) service inspired by Google
+    Zanzibar. Its public API was pure request/response REST over HTTPS at
+    https://api.warrant.dev (v1 for model/object/warrant management, v2 for the
+    /authorize access check), authenticated with an API key via the
+    `Authorization: ApiKey <key>` header. Applications ran authorization checks
+    by calling POST /v2/authorize synchronously and enumerated access via
+    GET /v1/query (Warrant Query Language). No realtime, bidirectional, or
+    streaming WebSocket endpoint was documented on Warrant's API. The
+    open-source self-hosted server (github.com/warrant-dev/warrant, Apache-2.0)
+    exposes the same REST surface on port 8000 and likewise documents no
+    WebSocket transport.
+  status: |
+    RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into
+    WorkOS FGA. The standalone hosted Warrant service (api.warrant.dev) and the
+    Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15; a
+    re-architected FGA is in development at WorkOS. The docs.warrant.dev host no
+    longer resolves. This review documents Warrant's historical API surface;
+    endpoints are modeled from Warrant's public documentation and the
+    open-source engine, not from a live contract.
+  openSource: |
+    The core Warrant authorization engine is open source (Apache-2.0) and
+    self-hostable via Docker against MySQL, Postgres, or SQLite
+    (github.com/warrant-dev/warrant, ~1,300+ stars, still receiving commits as
+    of late 2025). Client SDKs (Node, Go, Java, React, Vue, JS) and warrant-cli
+    are MIT/Apache licensed. The self-hosted engine remains usable independent
+    of the retired hosted service.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.warrant.dev
+      documented: true
+      note: v1 (objects, warrants, object-types, roles/permissions/users/tenants/features/pricing-tiers, query) and v2 (/authorize check). RETIRED - hosted service sunset 2025-11-15.
+    - protocol: REST
+      scheme: http
+      baseURL: http://localhost:8000
+      documented: true
+      note: Same REST surface exposed by the open-source self-hosted Warrant server (default port 8000).
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Warrant's API or the open-source engine.
+  endpointsConfirmedRest:
+    - GET    https://api.warrant.dev/v1/objects
+    - POST   https://api.warrant.dev/v1/objects
+    - GET    https://api.warrant.dev/v1/objects/{objectType}/{objectId}
+    - PUT    https://api.warrant.dev/v1/objects/{objectType}/{objectId}
+    - DELETE https://api.warrant.dev/v1/objects/{objectType}/{objectId}
+    - GET    https://api.warrant.dev/v1/warrants
+    - POST   https://api.warrant.dev/v1/warrants
+    - DELETE https://api.warrant.dev/v1/warrants
+    - POST   https://api.warrant.dev/v2/authorize
+    - GET    https://api.warrant.dev/v1/query
+    - GET    https://api.warrant.dev/v1/object-types
+    - POST   https://api.warrant.dev/v1/object-types
+    - GET    https://api.warrant.dev/v1/object-types/{type}
+    - PUT    https://api.warrant.dev/v1/object-types/{type}
+    - DELETE https://api.warrant.dev/v1/object-types/{type}
+    - GET    https://api.warrant.dev/v1/roles
+    - POST   https://api.warrant.dev/v1/roles
+    - GET    https://api.warrant.dev/v1/permissions
+    - POST   https://api.warrant.dev/v1/permissions
+    - GET    https://api.warrant.dev/v1/users
+    - GET    https://api.warrant.dev/v1/tenants
+    - GET    https://api.warrant.dev/v1/features
+    - GET    https://api.warrant.dev/v1/pricing-tiers
+  modeledNote: |
+    Endpoint paths are modeled from Warrant's publicly documented v1/v2 API and
+    the open-source engine. Because the hosted service is retired and
+    docs.warrant.dev no longer resolves, they could not be re-verified against a
+    live server at review time and should be treated as historical.
+sources:
+  - url: https://github.com/warrant-dev/warrant
+    type: SourceCode
+    note: Open-source (Apache-2.0) Zanzibar-style authorization engine; REST API, no WebSocket. Self-hosted default port 8000.
+  - url: https://workos.com/blog/workos-acquires-warrant
+    type: Announcement
+    note: WorkOS acquisition of Warrant announced 2024-04-23; Warrant folded into WorkOS FGA.
+  - url: https://warrant.dev/
+    type: Website
+    note: Now redirects/notes "Warrant -> Now WorkOS FGA".
+  - url: https://workos.com/docs/fga
+    type: Documentation
+    note: WorkOS FGA docs (successor). Legacy Warrant-based FGA deprecated/sunset 2025-11-15.
+  - url: https://workos.com/docs/fga/warrants
+    type: APIReference
+    note: Warrant (relationship tuple) model carried into WorkOS FGA.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists on Warrant's API, and the service is
+    retired. Warrant's public API is request/response REST (v1 management + v2
+    /authorize check). No AsyncAPI document was created because there is no
+    server-push transport to model and the hosted service was sunset on
+    2025-11-15.

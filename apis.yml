@@ -1,0 +1,164 @@
+aid: warrant-dev
+url: https://raw.githubusercontent.com/api-evangelist/warrant-dev/refs/heads/main/apis.yml
+name: Warrant
+kind: company
+description: >-
+  Warrant was a centralized, fine-grained authorization (FGA) and access control
+  service inspired by Google Zanzibar, exposing a real-time REST API to define an
+  authorization model, store relationships (warrants) between objects, and run
+  low-latency access checks and queries. It supported relationship-based (ReBAC),
+  role-based (RBAC), and attribute-based (ABAC) access control, plus entitlements
+  such as pricing tiers and feature gating. The core engine is open source
+  (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable. Warrant was
+  acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA; the standalone
+  hosted Warrant service (api.warrant.dev) and the Warrant-based WorkOS FGA were
+  deprecated and sunset on 2025-11-15. This entry documents Warrant's public API
+  surface historically - the endpoints modeled here reflect the documented
+  api.warrant.dev v1/v2 API and are RETIRED. Current fine-grained authorization
+  is offered through WorkOS; the open-source engine remains self-hostable.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Access Control
+- Authorization
+- Fine-Grained Authorization
+- FGA
+- RBAC
+- ReBAC
+- ABAC
+- Zanzibar
+- Permissions
+- Open Source
+- Retired
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: warrant-dev:warrant-dev-objects-api
+  name: Warrant Objects API
+  tags:
+  - Access Control
+  - Objects
+  - Resources
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
+  properties:
+  - url: https://github.com/warrant-dev/warrant
+    type: Documentation
+  - url: https://workos.com/docs/fga
+    type: APIReference
+  - url: openapi/warrant-dev-openapi.yml
+    type: OpenAPI
+  description: >-
+    Create, list, get, update, and delete the objects (resources and subjects -
+    users, tenants, documents, folders, roles, etc.) that participate in the
+    authorization model. Objects are identified by an object type and an object
+    id and can carry arbitrary metadata. RETIRED - modeled from the documented
+    api.warrant.dev v1 API; the standalone hosted service was sunset 2025-11-15.
+- aid: warrant-dev:warrant-dev-warrants-api
+  name: Warrant Relationships (Warrants) API
+  tags:
+  - Access Control
+  - Authorization
+  - Relationships
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://workos.com/docs/fga/warrants
+  baseURL: https://api.warrant.dev/v1
+  properties:
+  - url: https://workos.com/docs/fga/warrants
+    type: Documentation
+  - url: openapi/warrant-dev-openapi.yml
+    type: OpenAPI
+  description: >-
+    Manage warrants - the access rules that assign a relation between a subject
+    and an object (for example "user:1 is editor of document:xyz" or
+    "role:admin is member of tenant:acme"). Create, list, query, and delete
+    warrants; warrants are the Zanzibar-style relationship tuples the check
+    engine evaluates. RETIRED - modeled from the documented api.warrant.dev v1
+    API.
+- aid: warrant-dev:warrant-dev-check-api
+  name: Warrant Check (Authorization) API
+  tags:
+  - Access Control
+  - Authorization
+  - Fine-Grained Authorization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://workos.com/docs/fga
+  baseURL: https://api.warrant.dev
+  properties:
+  - url: https://workos.com/docs/fga
+    type: Documentation
+  - url: openapi/warrant-dev-openapi.yml
+    type: OpenAPI
+  description: >-
+    The real-time, low-latency authorization surface. Check whether a subject
+    has a given permission or relation on an object (POST /v2/authorize) and run
+    relationship queries with the Warrant Query Language to enumerate access
+    (GET /v1/query). This is the hot-path API applications called on every
+    access decision. RETIRED - modeled from the documented api.warrant.dev
+    v1/v2 API.
+- aid: warrant-dev:warrant-dev-object-types-api
+  name: Warrant Object Types API
+  tags:
+  - Access Control
+  - Object Types
+  - Authorization Model
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://workos.com/docs/fga/resource-types
+  baseURL: https://api.warrant.dev/v1
+  properties:
+  - url: https://workos.com/docs/fga/resource-types
+    type: Documentation
+  - url: openapi/warrant-dev-openapi.yml
+    type: OpenAPI
+  description: >-
+    Define and manage the authorization model itself - the object (resource)
+    types and the relations between them, including inheritance and implication
+    rules (for example a document inherits editor from its parent folder).
+    Create, list, get, update, and delete object types. RETIRED - modeled from
+    the documented api.warrant.dev v1 API.
+- aid: warrant-dev:warrant-dev-roles-permissions-api
+  name: Warrant Roles & Permissions API
+  tags:
+  - Access Control
+  - RBAC
+  - Roles
+  - Permissions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://workos.com/docs/fga
+  baseURL: https://api.warrant.dev/v1
+  properties:
+  - url: https://workos.com/docs/fga
+    type: Documentation
+  - url: openapi/warrant-dev-openapi.yml
+    type: OpenAPI
+  description: >-
+    Convenience RBAC and entitlements surface built on top of objects and
+    warrants - manage roles, permissions, users, tenants, features, and pricing
+    tiers, and assign them to each other (assign a permission to a role, a role
+    to a user, a user to a tenant, a feature to a pricing tier). RETIRED -
+    modeled from the documented api.warrant.dev v1 API.
+common:
+- type: Authentication
+  url: authentication/warrant-dev-authentication.yml
+- type: DomainSecurity
+  url: security/warrant-dev-domain-security.yml
+- type: GitHubOrganization
+  url: https://github.com/warrant-dev
+- type: LinkedIn
+  url: https://www.linkedin.com/company/warrant-dev
+- type: Website
+  url: https://warrant.dev
+- type: Documentation
+  url: https://workos.com/docs/fga
+- type: Plans
+  url: plans/warrant-dev-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/warrant-dev-rate-limits.yml
+- type: FinOps
+  url: finops/warrant-dev-finops.yml
+- url: https://blog.warrant.dev
+  type: Blog
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

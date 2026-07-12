@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant API (Retired)",
+    "version": "1.0",
+    "description": "Fine-grained authorization (FGA) API for Warrant, a Zanzibar-style access control service. RETIRED: acquired by WorkOS (2024-04-23), hosted service (api.warrant.dev) sunset 2025-11-15. Core engine open source (Apache-2.0, github.com/warrant-dev/warrant), self-hostable on port 8000. Base URL https://api.warrant.dev (hosted, retired) or http://localhost:8000. Auth: 'Authorization: ApiKey <key>'. Endpoints modeled from Warrant's documented v1/v2 API."
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "Authorization",
+        "value": "ApiKey {{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Objects", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List objects", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/objects" },
+          "docs": "Lists objects, optionally filtered by objectType."
+        },
+        {
+          "info": { "name": "Create an object", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.warrant.dev/v1/objects", "body": { "type": "json", "data": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"meta\": {}\n}" } },
+          "docs": "Creates an object of a given type."
+        },
+        {
+          "info": { "name": "Get an object", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/objects/:objectType/:objectId", "params": [{ "name": "objectType", "value": "document", "type": "path" }, { "name": "objectId", "value": "xyz", "type": "path" }] },
+          "docs": "Retrieves an object by type and id."
+        },
+        {
+          "info": { "name": "Delete an object", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.warrant.dev/v1/objects/:objectType/:objectId", "params": [{ "name": "objectType", "value": "document", "type": "path" }, { "name": "objectId", "value": "xyz", "type": "path" }] },
+          "docs": "Deletes an object."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Warrants", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Query warrants", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/warrants" },
+          "docs": "Lists warrants filtered by object, relation, or subject."
+        },
+        {
+          "info": { "name": "Create a warrant", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.warrant.dev/v1/warrants", "body": { "type": "json", "data": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"relation\": \"editor\",\n  \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n}" } },
+          "docs": "Assigns a relation between a subject and an object (grants access)."
+        },
+        {
+          "info": { "name": "Delete a warrant", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.warrant.dev/v1/warrants", "body": { "type": "json", "data": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"relation\": \"editor\",\n  \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n}" } },
+          "docs": "Removes a relation between a subject and an object (revokes access)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Check", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Check access", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.warrant.dev/v2/authorize", "body": { "type": "json", "data": "{\n  \"warrants\": [\n    {\n      \"objectType\": \"document\",\n      \"objectId\": \"xyz\",\n      \"relation\": \"editor\",\n      \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n    }\n  ]\n}" } },
+          "docs": "The real-time authorization check. Returns whether the subject has the relation on the object."
+        },
+        {
+          "info": { "name": "Query relationships", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/query" },
+          "docs": "Enumerates access using the Warrant Query Language (WQL) via the q parameter."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Object Types", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List object types", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/object-types" },
+          "docs": "Lists the object types that make up the authorization model."
+        },
+        {
+          "info": { "name": "Create an object type", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.warrant.dev/v1/object-types", "body": { "type": "json", "data": "{\n  \"type\": \"document\",\n  \"relations\": { \"editor\": {}, \"viewer\": {} }\n}" } },
+          "docs": "Defines a new object type and its relations."
+        },
+        {
+          "info": { "name": "Delete an object type", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.warrant.dev/v1/object-types/:type", "params": [{ "name": "type", "value": "document", "type": "path" }] },
+          "docs": "Deletes an object type."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Roles and Permissions", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List roles", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/roles" },
+          "docs": "Lists RBAC roles."
+        },
+        {
+          "info": { "name": "Assign a permission to a role", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.warrant.dev/v1/roles/:roleId/permissions/:permissionId", "params": [{ "name": "roleId", "value": "admin", "type": "path" }, { "name": "permissionId", "value": "edit-document", "type": "path" }] },
+          "docs": "Writes a warrant granting the permission to the role."
+        },
+        {
+          "info": { "name": "List permissions", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/permissions" },
+          "docs": "Lists permissions."
+        },
+        {
+          "info": { "name": "List pricing tiers", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.warrant.dev/v1/pricing-tiers" },
+          "docs": "Lists pricing tiers used for entitlement / feature gating."
+        }
+      ]
+    }
+  ]
+}

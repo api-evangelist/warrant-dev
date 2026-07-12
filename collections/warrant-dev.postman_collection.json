@@ -1,0 +1,195 @@
+{
+  "info": {
+    "name": "Warrant API (Retired)",
+    "description": "Fine-grained authorization (FGA) API for Warrant, a Zanzibar-style access control service. Define an authorization model (object types), write relationship tuples (warrants), and run real-time access checks and queries. RETIRED: Warrant was acquired by WorkOS (2024-04-23) and folded into WorkOS FGA; the standalone hosted service (api.warrant.dev) was sunset 2025-11-15. The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable on port 8000. Base URL: https://api.warrant.dev (hosted, retired) or http://localhost:8000 (self-hosted). Requests authenticate with an API key via 'Authorization: ApiKey <key>'. Endpoints are modeled from Warrant's documented v1/v2 API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "Authorization", "type": "string" },
+      { "key": "value", "value": "ApiKey {{apiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.warrant.dev", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Objects",
+      "item": [
+        {
+          "name": "List objects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/objects", "host": ["{{baseUrl}}"], "path": ["v1", "objects"] },
+            "description": "Lists objects, optionally filtered by objectType."
+          }
+        },
+        {
+          "name": "Create an object",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"meta\": {}\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/objects", "host": ["{{baseUrl}}"], "path": ["v1", "objects"] },
+            "description": "Creates an object of a given type."
+          }
+        },
+        {
+          "name": "Get an object",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/objects/:objectType/:objectId", "host": ["{{baseUrl}}"], "path": ["v1", "objects", ":objectType", ":objectId"], "variable": [{ "key": "objectType", "value": "document" }, { "key": "objectId", "value": "xyz" }] },
+            "description": "Retrieves an object by type and id."
+          }
+        },
+        {
+          "name": "Delete an object",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/objects/:objectType/:objectId", "host": ["{{baseUrl}}"], "path": ["v1", "objects", ":objectType", ":objectId"], "variable": [{ "key": "objectType", "value": "document" }, { "key": "objectId", "value": "xyz" }] },
+            "description": "Deletes an object."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Warrants",
+      "item": [
+        {
+          "name": "Query warrants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/warrants?objectType=document&objectId=xyz", "host": ["{{baseUrl}}"], "path": ["v1", "warrants"], "query": [{ "key": "objectType", "value": "document" }, { "key": "objectId", "value": "xyz" }] },
+            "description": "Lists warrants filtered by object, relation, or subject."
+          }
+        },
+        {
+          "name": "Create a warrant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"relation\": \"editor\",\n  \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/warrants", "host": ["{{baseUrl}}"], "path": ["v1", "warrants"] },
+            "description": "Assigns a relation between a subject and an object (grants access)."
+          }
+        },
+        {
+          "name": "Delete a warrant",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"objectType\": \"document\",\n  \"objectId\": \"xyz\",\n  \"relation\": \"editor\",\n  \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/warrants", "host": ["{{baseUrl}}"], "path": ["v1", "warrants"] },
+            "description": "Removes a relation between a subject and an object (revokes access)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check",
+      "item": [
+        {
+          "name": "Check access",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"warrants\": [\n    {\n      \"objectType\": \"document\",\n      \"objectId\": \"xyz\",\n      \"relation\": \"editor\",\n      \"subject\": { \"objectType\": \"user\", \"objectId\": \"1\" }\n    }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/v2/authorize", "host": ["{{baseUrl}}"], "path": ["v2", "authorize"] },
+            "description": "The real-time authorization check. Returns whether the subject has the relation on the object."
+          }
+        },
+        {
+          "name": "Query relationships",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/query?q=select document where user:1 is editor", "host": ["{{baseUrl}}"], "path": ["v1", "query"], "query": [{ "key": "q", "value": "select document where user:1 is editor" }] },
+            "description": "Enumerates access using the Warrant Query Language."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Object Types",
+      "item": [
+        {
+          "name": "List object types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/object-types", "host": ["{{baseUrl}}"], "path": ["v1", "object-types"] },
+            "description": "Lists the object types that make up the authorization model."
+          }
+        },
+        {
+          "name": "Create an object type",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"type\": \"document\",\n  \"relations\": {\n    \"editor\": {},\n    \"viewer\": {}\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/v1/object-types", "host": ["{{baseUrl}}"], "path": ["v1", "object-types"] },
+            "description": "Defines a new object type and its relations."
+          }
+        },
+        {
+          "name": "Delete an object type",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/object-types/:type", "host": ["{{baseUrl}}"], "path": ["v1", "object-types", ":type"], "variable": [{ "key": "type", "value": "document" }] },
+            "description": "Deletes an object type."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Roles and Permissions",
+      "item": [
+        {
+          "name": "List roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/roles", "host": ["{{baseUrl}}"], "path": ["v1", "roles"] },
+            "description": "Lists RBAC roles."
+          }
+        },
+        {
+          "name": "Assign a permission to a role",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/roles/:roleId/permissions/:permissionId", "host": ["{{baseUrl}}"], "path": ["v1", "roles", ":roleId", "permissions", ":permissionId"], "variable": [{ "key": "roleId", "value": "admin" }, { "key": "permissionId", "value": "edit-document" }] },
+            "description": "Writes a warrant granting the permission to the role."
+          }
+        },
+        {
+          "name": "List permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/permissions", "host": ["{{baseUrl}}"], "path": ["v1", "permissions"] },
+            "description": "Lists permissions."
+          }
+        },
+        {
+          "name": "List pricing tiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/v1/pricing-tiers", "host": ["{{baseUrl}}"], "path": ["v1", "pricing-tiers"] },
+            "description": "Lists pricing tiers used for entitlement / feature gating."
+          }
+        }
+      ]
+    }
+  ]
+}

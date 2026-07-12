@@ -1,0 +1,134 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Warrant
+providerId: warrant-dev
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+retired: true
+tags:
+- Access Control
+- Authorization
+- Fine-Grained Authorization
+- Open Source
+- Plans
+description: >-
+  Warrant had two consumption models. The core authorization engine is open
+  source (Apache-2.0) and free to self-host with no vendor fee - your only cost
+  is the infrastructure and datastore (MySQL, Postgres, or SQLite) you run it
+  on. The hosted Warrant Cloud offered a free developer tier for getting started
+  and a usage-based paid tier metered on authorization activity (objects,
+  warrants, and access checks), with a custom/enterprise tier for high-volume
+  deployments. RETIRED - Warrant was acquired by WorkOS (2024-04-23) and the
+  hosted service was sunset 2025-11-15; the specific historical free-tier
+  numeric limits and per-unit rates were not reconciled here. Current
+  fine-grained authorization pricing is set by WorkOS FGA.
+notes: >-
+  Exact historical free-tier allowances and usage rates could not be reconciled
+  because the hosted service is retired and docs.warrant.dev no longer resolves.
+  The tiers below are modeled from Warrant's documented developer-first free
+  tier plus usage-based and enterprise pricing. For current pricing see WorkOS
+  (workos.com/pricing); to avoid vendor pricing entirely, self-host the
+  open-source engine.
+sources:
+- https://warrant.dev/
+- https://github.com/warrant-dev/warrant
+- https://workos.com/blog/workos-acquires-warrant
+- https://workos.com/pricing
+plans:
+- id: warrant-open-source
+  name: Open Source (Self-Hosted)
+  type: free
+  description: >-
+    The full Warrant authorization engine, Apache-2.0 licensed and self-hostable
+    via Docker against MySQL, Postgres, or SQLite. Includes the complete REST
+    API (objects, warrants, object-types, check/authorize, query, roles,
+    permissions, features, pricing tiers). No vendor fee; bounded only by your
+    own infrastructure. Not retired - remains available independent of the
+    hosted service.
+  entries:
+  - label: Self-Hosted Usage
+    name: self_hosted_usage
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (self-hosted; you provide infrastructure)
+    userMultiplied: false
+  elements:
+  - name: Full REST API
+  - name: ReBAC, RBAC, and ABAC
+  - name: Warrant Query Language
+  - name: Entitlements (Features and Pricing Tiers)
+- id: warrant-cloud-free
+  name: Warrant Cloud - Free (Retired)
+  type: free
+  description: >-
+    Free developer tier of the hosted Warrant service for evaluation and small
+    workloads, with a bounded monthly allowance of objects, warrants, and access
+    checks. RETIRED - hosted service sunset 2025-11-15; exact allowance not
+    reconciled.
+  entries:
+  - label: Included Authorization Activity
+    name: cloud_free_activity
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: historically $0 up to the free-tier allowance (retired)
+    userMultiplied: false
+  elements:
+  - name: Managed Hosting
+  - name: Real-Time Access Checks
+- id: warrant-cloud-usage
+  name: Warrant Cloud - Usage (Retired)
+  type: usage
+  description: >-
+    Hosted tier billed on authorization activity - objects and warrants stored
+    plus access checks performed - above the free allowance. RETIRED - hosted
+    service sunset 2025-11-15; per-unit rates not reconciled.
+  entries:
+  - label: Access Checks
+    name: cloud_checks
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: historically usage-based per checks/objects/warrants (retired)
+    userMultiplied: false
+  elements:
+  - name: Managed Hosting
+  - name: Higher Limits
+  - name: Support
+- id: warrant-enterprise
+  name: Enterprise / Custom (Retired)
+  type: enterprise
+  description: >-
+    Custom plan for high-volume or regulated deployments with SLAs, security
+    reviews, and negotiated terms. RETIRED as a standalone Warrant offering;
+    superseded by WorkOS enterprise agreements.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales (now via WorkOS)
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: SLAs and Support
+  - name: Security Reviews
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

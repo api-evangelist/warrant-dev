@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/warrant-dev-openapi.yml
+summary:
+  types:
+  - apiKey
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  headerName: Authorization
+  description: >-
+    Warrant authenticated API requests with an API key passed in the
+    Authorization header as `Authorization: ApiKey YOUR_API_KEY`. Hosted keys
+    were issued from the Warrant dashboard; self-hosted deployments set the key
+    via the `ApiKey` value in the server configuration. Frontend/self-service
+    flows used short-lived session tokens minted from the API key server-side.
+    RETIRED - the hosted service was sunset 2025-11-15; the same header scheme
+    applies to the open-source self-hosted server.
+  sources:
+  - openapi/warrant-dev-openapi.yml
+  - https://github.com/warrant-dev/warrant

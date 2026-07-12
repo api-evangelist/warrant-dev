@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: modeled
+source: >-
+  Historical review of api.warrant.dev / warrant.dev. The standalone hosted
+  Warrant service was sunset 2025-11-15; live DNS/TLS/HTTP probes were not
+  performed because the hosted API host is retired and docs.warrant.dev no
+  longer resolves. Values below are not reconciled against live probes.
+hosts:
+- host: warrant.dev
+  https: true
+  note: Marketing site remains and notes "Warrant -> Now WorkOS FGA".
+- host: api.warrant.dev
+  https: true
+  note: RETIRED - hosted API sunset 2025-11-15; not probed.
+- host: docs.warrant.dev
+  https: false
+  note: No longer resolves (DNS ENOTFOUND at review time); docs moved to workos.com/docs/fga.
+domains:
+- domain: warrant.dev
+  dnssec: unknown
+  caa: []
+  spf: unknown
+  dmarc: unknown
+  note: Not reconciled; hosted service retired.

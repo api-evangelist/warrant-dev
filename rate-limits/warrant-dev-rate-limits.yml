@@ -1,0 +1,61 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Warrant
+providerId: warrant-dev
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+retired: true
+tags:
+- Access Control
+- Authorization
+- Fine-Grained Authorization
+- Rate Limiting
+- Quotas
+description: >-
+  Warrant did not publish fixed numeric per-endpoint rate limits for its hosted
+  API. As a real-time authorization service, the check endpoint (POST
+  /v2/authorize) was designed for high-volume, low-latency traffic on the
+  application hot path; sustained throughput was governed by plan and
+  fair-use rather than a documented per-minute request cap. On the open-source
+  self-hosted server (github.com/warrant-dev/warrant, default port 8000),
+  throughput is bounded only by your own infrastructure and datastore (MySQL,
+  Postgres, or SQLite), with no vendor-imposed limit. RETIRED - the hosted
+  service was sunset 2025-11-15; any current limits are governed by WorkOS FGA.
+notes: >-
+  Numeric per-account or per-endpoint limits were not documented and could not
+  be reconciled because the hosted service is retired and docs.warrant.dev no
+  longer resolves. For current fine-grained authorization limits, see WorkOS
+  FGA (workos.com/docs/fga). For self-hosted deployments, scale the datastore
+  and Warrant service to your check volume.
+sources:
+- https://github.com/warrant-dev/warrant
+- https://warrant.dev/
+- https://workos.com/docs/fga
+responseCodes:
+  throttled: 429
+limits:
+- name: Authorization Check Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: The /v2/authorize hot-path check had no documented fixed numeric rate limit; governed by plan and fair-use. RETIRED.
+- name: Management API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit was documented for the v1 management endpoints (objects, warrants, object-types, roles/permissions). RETIRED.
+- name: Self-Hosted Throughput
+  scope: deployment
+  metric: requests
+  limit: hardware-bound
+  notes: The open-source server (port 8000) is bounded only by your own infrastructure and backing datastore, not by Warrant.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Local Enforcement
+  description: SDKs supported client-side caching / local decision paths to reduce check-endpoint load for latency-sensitive hot paths.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
