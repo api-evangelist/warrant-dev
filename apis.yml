@@ -139,6 +139,8 @@ apis:
     to a user, a user to a tenant, a feature to a pricing tier). RETIRED -
     modeled from the documented api.warrant.dev v1 API.
 common:
+- type: AgenticAccess
+  url: agentic-access/warrant-dev-agentic-access.yml
 - type: Authentication
   url: authentication/warrant-dev-authentication.yml
 - type: DomainSecurity
