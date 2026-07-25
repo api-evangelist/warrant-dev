@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: Warrant Check Object Types API
+  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
+
+    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  version: '1.0'
+  contact:
+    name: Warrant (now WorkOS FGA)
+    url: https://warrant.dev
+  license:
+    name: Apache-2.0
+    url: https://github.com/warrant-dev/warrant/blob/main/LICENSE
+servers:
+- url: https://api.warrant.dev
+  description: Warrant hosted API (RETIRED - sunset 2025-11-15)
+- url: http://localhost:8000
+  description: Self-hosted open-source Warrant server (default port)
+security:
+- apiKeyAuth: []
+tags:
+- name: Object Types
+  description: The authorization model - object types and their relations.
+paths:
+  /v1/object-types:
+    get:
+      operationId: listObjectTypes
+      tags:
+      - Object Types
+      summary: List object types
+      description: Lists the object (resource) types that make up the authorization model. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of object types.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectType'
+    post:
+      operationId: createObjectType
+      tags:
+      - Object Types
+      summary: Create an object type
+      description: Defines a new object type and its relations. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectType'
+      responses:
+        '200':
+          description: The created object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+  /v1/object-types/{type}:
+    parameters:
+    - name: type
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getObjectType
+      tags:
+      - Object Types
+      summary: Get an object type
+      responses:
+        '200':
+          description: The requested object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+    put:
+      operationId: updateObjectType
+      tags:
+      - Object Types
+      summary: Update an object type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectType'
+      responses:
+        '200':
+          description: The updated object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+    delete:
+      operationId: deleteObjectType
+      tags:
+      - Object Types
+      summary: Delete an object type
+      responses:
+        '200':
+          description: The object type was deleted.
+components:
+  schemas:
+    ObjectType:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        relations:
+          type: object
+          additionalProperties: true
+          description: Map of relation name to its definition (inheritance / implication rules).
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: ApiKey YOUR_API_KEY`. Self-hosted deployments configure the key via ApiKey in the server config.'

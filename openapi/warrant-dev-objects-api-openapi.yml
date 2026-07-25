@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  title: Warrant Check Objects API
+  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
+
+    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  version: '1.0'
+  contact:
+    name: Warrant (now WorkOS FGA)
+    url: https://warrant.dev
+  license:
+    name: Apache-2.0
+    url: https://github.com/warrant-dev/warrant/blob/main/LICENSE
+servers:
+- url: https://api.warrant.dev
+  description: Warrant hosted API (RETIRED - sunset 2025-11-15)
+- url: http://localhost:8000
+  description: Self-hosted open-source Warrant server (default port)
+security:
+- apiKeyAuth: []
+tags:
+- name: Objects
+  description: Resources and subjects that participate in the authorization model.
+paths:
+  /v1/objects:
+    get:
+      operationId: listObjects
+      tags:
+      - Objects
+      summary: List objects
+      description: Lists objects, optionally filtered by object type. RETIRED / modeled.
+      parameters:
+      - name: objectType
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createObject
+      tags:
+      - Objects
+      summary: Create an object
+      description: Creates an object of a given type with an optional id and metadata. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/objects/{objectType}/{objectId}:
+    parameters:
+    - name: objectType
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: objectId
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getObject
+      tags:
+      - Objects
+      summary: Get an object
+      responses:
+        '200':
+          description: The requested object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateObject
+      tags:
+      - Objects
+      summary: Update an object's metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectUpdate'
+      responses:
+        '200':
+          description: The updated object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+    delete:
+      operationId: deleteObject
+      tags:
+      - Objects
+      summary: Delete an object
+      responses:
+        '200':
+          description: The object was deleted.
+components:
+  schemas:
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    ObjectUpdate:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    ObjectCreate:
+      type: object
+      required:
+      - objectType
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+          description: Optional; the server generates one if omitted.
+        meta:
+          type: object
+          additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: ApiKey YOUR_API_KEY`. Self-hosted deployments configure the key via ApiKey in the server config.'

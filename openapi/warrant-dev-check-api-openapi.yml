@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Warrant Check API
+  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
+
+    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  version: '1.0'
+  contact:
+    name: Warrant (now WorkOS FGA)
+    url: https://warrant.dev
+  license:
+    name: Apache-2.0
+    url: https://github.com/warrant-dev/warrant/blob/main/LICENSE
+servers:
+- url: https://api.warrant.dev
+  description: Warrant hosted API (RETIRED - sunset 2025-11-15)
+- url: http://localhost:8000
+  description: Self-hosted open-source Warrant server (default port)
+security:
+- apiKeyAuth: []
+tags:
+- name: Check
+  description: Real-time access checks and relationship queries.
+paths:
+  /v2/authorize:
+    post:
+      operationId: checkAccess
+      tags:
+      - Check
+      summary: Check access
+      description: The hot-path authorization check. Returns whether a subject has the requested relation/permission on one or more objects, optionally evaluating a batch with anyOf/allOf semantics. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckRequest'
+      responses:
+        '200':
+          description: The authorization decision.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/query:
+    get:
+      operationId: queryAccess
+      tags:
+      - Check
+      summary: Query relationships
+      description: Runs a Warrant Query Language (WQL) expression to enumerate which subjects have access to an object, or which objects a subject can access. RETIRED / modeled.
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: A Warrant Query Language expression.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Query results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueryResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    QueryResult:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        isImplicit:
+          type: boolean
+    CheckResult:
+      type: object
+      properties:
+        code:
+          type: integer
+        result:
+          type: string
+          description: '"Authorized" or "Not Authorized".'
+    Subject:
+      type: object
+      required:
+      - objectType
+      - objectId
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+    Warrant:
+      type: object
+      required:
+      - objectType
+      - objectId
+      - relation
+      - subject
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        policy:
+          type: string
+          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    CheckRequest:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - anyOf
+          - allOf
+          description: Combines multiple warrant checks in a batch.
+        warrants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Warrant'
+        context:
+          type: object
+          additionalProperties: true
+          description: Runtime attributes evaluated against warrant policies (ABAC).
+        debug:
+          type: boolean
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: ApiKey YOUR_API_KEY`. Self-hosted deployments configure the key via ApiKey in the server config.'

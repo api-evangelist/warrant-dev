@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: Warrant Check Roles and Permissions API
+  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
+
+    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  version: '1.0'
+  contact:
+    name: Warrant (now WorkOS FGA)
+    url: https://warrant.dev
+  license:
+    name: Apache-2.0
+    url: https://github.com/warrant-dev/warrant/blob/main/LICENSE
+servers:
+- url: https://api.warrant.dev
+  description: Warrant hosted API (RETIRED - sunset 2025-11-15)
+- url: http://localhost:8000
+  description: Self-hosted open-source Warrant server (default port)
+security:
+- apiKeyAuth: []
+tags:
+- name: Roles and Permissions
+  description: RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
+paths:
+  /v1/roles:
+    get:
+      operationId: listRoles
+      tags:
+      - Roles and Permissions
+      summary: List roles
+      description: Lists RBAC roles. Roles are objects of type role with permissions assigned via warrants. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of roles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+    post:
+      operationId: createRole
+      tags:
+      - Roles and Permissions
+      summary: Create a role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        '200':
+          description: The created role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+  /v1/roles/{roleId}/permissions/{permissionId}:
+    parameters:
+    - name: roleId
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: permissionId
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: assignPermissionToRole
+      tags:
+      - Roles and Permissions
+      summary: Assign a permission to a role
+      description: Writes a warrant granting the permission to the role. RETIRED / modeled.
+      responses:
+        '200':
+          description: The permission was assigned to the role.
+    delete:
+      operationId: removePermissionFromRole
+      tags:
+      - Roles and Permissions
+      summary: Remove a permission from a role
+      responses:
+        '200':
+          description: The permission was removed from the role.
+  /v1/permissions:
+    get:
+      operationId: listPermissions
+      tags:
+      - Roles and Permissions
+      summary: List permissions
+      responses:
+        '200':
+          description: A list of permissions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Permission'
+    post:
+      operationId: createPermission
+      tags:
+      - Roles and Permissions
+      summary: Create a permission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Permission'
+      responses:
+        '200':
+          description: The created permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+  /v1/users:
+    get:
+      operationId: listUsers
+      tags:
+      - Roles and Permissions
+      summary: List users
+      description: Lists users. Users are objects of type user; a convenience wrapper over the Objects API. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+    post:
+      operationId: createUser
+      tags:
+      - Roles and Permissions
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+  /v1/tenants:
+    get:
+      operationId: listTenants
+      tags:
+      - Roles and Permissions
+      summary: List tenants
+      description: Lists tenants (organizations). Tenants are objects of type tenant. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of tenants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+    post:
+      operationId: createTenant
+      tags:
+      - Roles and Permissions
+      summary: Create a tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+  /v1/features:
+    get:
+      operationId: listFeatures
+      tags:
+      - Roles and Permissions
+      summary: List features
+      description: Lists entitlement features that can be granted to pricing tiers, tenants, or users. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of features.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feature'
+    post:
+      operationId: createFeature
+      tags:
+      - Roles and Permissions
+      summary: Create a feature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feature'
+      responses:
+        '200':
+          description: The created feature.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feature'
+  /v1/pricing-tiers:
+    get:
+      operationId: listPricingTiers
+      tags:
+      - Roles and Permissions
+      summary: List pricing tiers
+      description: Lists pricing tiers used for entitlement / feature gating. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of pricing tiers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PricingTier'
+    post:
+      operationId: createPricingTier
+      tags:
+      - Roles and Permissions
+      summary: Create a pricing tier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricingTier'
+      responses:
+        '200':
+          description: The created pricing tier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingTier'
+components:
+  schemas:
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    PricingTier:
+      type: object
+      properties:
+        pricingTierId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Feature:
+      type: object
+      properties:
+        featureId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    ObjectCreate:
+      type: object
+      required:
+      - objectType
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+          description: Optional; the server generates one if omitted.
+        meta:
+          type: object
+          additionalProperties: true
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: ApiKey YOUR_API_KEY`. Self-hosted deployments configure the key via ApiKey in the server config.'
