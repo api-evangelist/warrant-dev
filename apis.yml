@@ -16,7 +16,20 @@ description: >-
   surface historically - the endpoints modeled here reflect the documented
   api.warrant.dev v1/v2 API and are RETIRED. Current fine-grained authorization
   is offered through WorkOS; the open-source engine remains self-hostable.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/warrant-dev.png
 tags:
 - Access Control
 - Authorization
@@ -33,111 +46,107 @@ created: '2026-07-11'
 modified: '2026-07-11'
 specificationVersion: '0.19'
 apis:
-- aid: warrant-dev:warrant-dev-objects-api
-  name: Warrant Objects API
-  tags:
-  - Access Control
-  - Objects
-  - Resources
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: warrant-dev:warrant-dev-check-api
+  name: Warrant Check API
+  description: Real-time access checks and relationship queries.
   humanURL: https://github.com/warrant-dev/warrant
   baseURL: https://api.warrant.dev/v1
-  properties:
-  - url: https://github.com/warrant-dev/warrant
-    type: Documentation
-  - url: https://workos.com/docs/fga
-    type: APIReference
-  - url: openapi/warrant-dev-openapi.yml
-    type: OpenAPI
-  description: >-
-    Create, list, get, update, and delete the objects (resources and subjects -
-    users, tenants, documents, folders, roles, etc.) that participate in the
-    authorization model. Objects are identified by an object type and an object
-    id and can carry arbitrary metadata. RETIRED - modeled from the documented
-    api.warrant.dev v1 API; the standalone hosted service was sunset 2025-11-15.
-- aid: warrant-dev:warrant-dev-warrants-api
-  name: Warrant Relationships (Warrants) API
   tags:
-  - Access Control
-  - Authorization
-  - Relationships
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://workos.com/docs/fga/warrants
-  baseURL: https://api.warrant.dev/v1
+  - Check
   properties:
-  - url: https://workos.com/docs/fga/warrants
-    type: Documentation
-  - url: openapi/warrant-dev-openapi.yml
-    type: OpenAPI
-  description: >-
-    Manage warrants - the access rules that assign a relation between a subject
-    and an object (for example "user:1 is editor of document:xyz" or
-    "role:admin is member of tenant:acme"). Create, list, query, and delete
-    warrants; warrants are the Zanzibar-style relationship tuples the check
-    engine evaluates. RETIRED - modeled from the documented api.warrant.dev v1
-    API.
-- aid: warrant-dev:warrant-dev-check-api
-  name: Warrant Check (Authorization) API
-  tags:
-  - Access Control
-  - Authorization
-  - Fine-Grained Authorization
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://workos.com/docs/fga
-  baseURL: https://api.warrant.dev
-  properties:
-  - url: https://workos.com/docs/fga
-    type: Documentation
-  - url: openapi/warrant-dev-openapi.yml
-    type: OpenAPI
-  description: >-
-    The real-time, low-latency authorization surface. Check whether a subject
-    has a given permission or relation on an object (POST /v2/authorize) and run
-    relationship queries with the Warrant Query Language to enumerate access
-    (GET /v1/query). This is the hot-path API applications called on every
-    access decision. RETIRED - modeled from the documented api.warrant.dev
-    v1/v2 API.
+  - type: OpenAPI
+    url: openapi/warrant-dev-check-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
 - aid: warrant-dev:warrant-dev-object-types-api
   name: Warrant Object Types API
+  description: The authorization model - object types and their relations.
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
   tags:
-  - Access Control
   - Object Types
-  - Authorization Model
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://workos.com/docs/fga/resource-types
-  baseURL: https://api.warrant.dev/v1
   properties:
-  - url: https://workos.com/docs/fga/resource-types
-    type: Documentation
-  - url: openapi/warrant-dev-openapi.yml
-    type: OpenAPI
-  description: >-
-    Define and manage the authorization model itself - the object (resource)
-    types and the relations between them, including inheritance and implication
-    rules (for example a document inherits editor from its parent folder).
-    Create, list, get, update, and delete object types. RETIRED - modeled from
-    the documented api.warrant.dev v1 API.
-- aid: warrant-dev:warrant-dev-roles-permissions-api
-  name: Warrant Roles & Permissions API
+  - type: OpenAPI
+    url: openapi/warrant-dev-object-types-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
+- aid: warrant-dev:warrant-dev-objects-api
+  name: Warrant Objects API
+  description: Resources and subjects that participate in the authorization model.
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
   tags:
-  - Access Control
-  - RBAC
-  - Roles
-  - Permissions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://workos.com/docs/fga
-  baseURL: https://api.warrant.dev/v1
+  - Objects
   properties:
-  - url: https://workos.com/docs/fga
-    type: Documentation
-  - url: openapi/warrant-dev-openapi.yml
-    type: OpenAPI
+  - type: OpenAPI
+    url: openapi/warrant-dev-objects-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
+- aid: warrant-dev:warrant-dev-roles-and-permissions-api
+  name: Warrant Roles and Permissions API
   description: >-
-    Convenience RBAC and entitlements surface built on top of objects and
-    warrants - manage roles, permissions, users, tenants, features, and pricing
-    tiers, and assign them to each other (assign a permission to a role, a role
-    to a user, a user to a tenant, a feature to a pricing tier). RETIRED -
-    modeled from the documented api.warrant.dev v1 API.
+    RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
+  tags:
+  - Roles and Permissions
+  properties:
+  - type: OpenAPI
+    url: openapi/warrant-dev-roles-and-permissions-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
+- aid: warrant-dev:warrant-dev-warrants-api
+  name: Warrant Warrants API
+  description: Relationship tuples (access rules) between subjects and objects.
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
+  tags:
+  - Warrants
+  properties:
+  - type: OpenAPI
+    url: openapi/warrant-dev-warrants-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
 common:
 - type: AgenticAccess
   url: agentic-access/warrant-dev-agentic-access.yml
