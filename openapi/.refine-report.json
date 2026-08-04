@@ -1,0 +1,22 @@
+{
+  "provider": "warrant-dev",
+  "sources": [
+    "warrant-dev-check-api-openapi.yml",
+    "warrant-dev-object-types-api-openapi.yml",
+    "warrant-dev-objects-api-openapi.yml",
+    "warrant-dev-roles-and-permissions-api-openapi.yml",
+    "warrant-dev-warrants-api-openapi.yml"
+  ],
+  "outputs": [
+    "warrant-dev-check-api-openapi.yml",
+    "warrant-dev-object-types-api-openapi.yml",
+    "warrant-dev-objects-api-openapi.yml",
+    "warrant-dev-roles-and-permissions-api-openapi.yml",
+    "warrant-dev-warrants-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

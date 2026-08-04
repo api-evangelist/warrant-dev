@@ -1,0 +1,775 @@
+openapi: 3.0.3
+info:
+  title: Warrant API
+  description: >-
+    Warrant was a centralized, fine-grained authorization (FGA) service inspired
+    by Google Zanzibar. Applications defined an authorization model (object
+    types and relations), wrote relationship tuples called warrants between
+    objects, and then ran real-time access checks and relationship queries. The
+    service supported ReBAC, RBAC, and ABAC, plus entitlements (features and
+    pricing tiers). The core engine is open source (Apache-2.0,
+    github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres,
+    or SQLite; the self-hosted server listens on port 8000 by default. The
+    hosted service used base URL https://api.warrant.dev with API-key
+    authentication via the `Authorization: ApiKey <key>` header.
+
+    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded
+    into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the
+    Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths
+    below are MODELED from Warrant's publicly documented v1/v2 API for
+    historical and access-control reference; they are not a live contract.
+    Verify current fine-grained authorization at https://workos.com/docs/fga.
+  version: '1.0'
+  contact:
+    name: Warrant (now WorkOS FGA)
+    url: https://warrant.dev
+  license:
+    name: Apache-2.0
+    url: https://github.com/warrant-dev/warrant/blob/main/LICENSE
+servers:
+  - url: https://api.warrant.dev
+    description: Warrant hosted API (RETIRED - sunset 2025-11-15)
+  - url: http://localhost:8000
+    description: Self-hosted open-source Warrant server (default port)
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Objects
+    description: Resources and subjects that participate in the authorization model.
+  - name: Warrants
+    description: Relationship tuples (access rules) between subjects and objects.
+  - name: Check
+    description: Real-time access checks and relationship queries.
+  - name: Object Types
+    description: The authorization model - object types and their relations.
+  - name: Roles and Permissions
+    description: RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
+paths:
+  /v1/objects:
+    get:
+      operationId: listObjects
+      tags:
+        - Objects
+      summary: List objects
+      description: Lists objects, optionally filtered by object type. RETIRED / modeled.
+      parameters:
+        - name: objectType
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createObject
+      tags:
+        - Objects
+      summary: Create an object
+      description: Creates an object of a given type with an optional id and metadata. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/objects/{objectType}/{objectId}:
+    parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: objectId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getObject
+      tags:
+        - Objects
+      summary: Get an object
+      responses:
+        '200':
+          description: The requested object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateObject
+      tags:
+        - Objects
+      summary: Update an object's metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectUpdate'
+      responses:
+        '200':
+          description: The updated object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+    delete:
+      operationId: deleteObject
+      tags:
+        - Objects
+      summary: Delete an object
+      responses:
+        '200':
+          description: The object was deleted.
+  /v1/warrants:
+    get:
+      operationId: queryWarrants
+      tags:
+        - Warrants
+      summary: List / query warrants
+      description: Lists warrants, optionally filtered by object type, object id, relation, or subject. RETIRED / modeled.
+      parameters:
+        - name: objectType
+          in: query
+          schema:
+            type: string
+        - name: objectId
+          in: query
+          schema:
+            type: string
+        - name: relation
+          in: query
+          schema:
+            type: string
+        - name: 'subject.objectType'
+          in: query
+          schema:
+            type: string
+        - name: 'subject.objectId'
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of warrants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Warrant'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWarrant
+      tags:
+        - Warrants
+      summary: Create a warrant
+      description: Assigns a relation between a subject and an object (grants access). RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Warrant'
+      responses:
+        '200':
+          description: The created warrant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Warrant'
+    delete:
+      operationId: deleteWarrant
+      tags:
+        - Warrants
+      summary: Delete a warrant
+      description: Removes a relation between a subject and an object (revokes access). RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Warrant'
+      responses:
+        '200':
+          description: The warrant was deleted.
+  /v2/authorize:
+    post:
+      operationId: checkAccess
+      tags:
+        - Check
+      summary: Check access
+      description: >-
+        The hot-path authorization check. Returns whether a subject has the
+        requested relation/permission on one or more objects, optionally
+        evaluating a batch with anyOf/allOf semantics. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckRequest'
+      responses:
+        '200':
+          description: The authorization decision.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/query:
+    get:
+      operationId: queryAccess
+      tags:
+        - Check
+      summary: Query relationships
+      description: >-
+        Runs a Warrant Query Language (WQL) expression to enumerate which
+        subjects have access to an object, or which objects a subject can
+        access. RETIRED / modeled.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: A Warrant Query Language expression.
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Query results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueryResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/object-types:
+    get:
+      operationId: listObjectTypes
+      tags:
+        - Object Types
+      summary: List object types
+      description: Lists the object (resource) types that make up the authorization model. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of object types.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObjectType'
+    post:
+      operationId: createObjectType
+      tags:
+        - Object Types
+      summary: Create an object type
+      description: Defines a new object type and its relations. RETIRED / modeled.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectType'
+      responses:
+        '200':
+          description: The created object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+  /v1/object-types/{type}:
+    parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getObjectType
+      tags:
+        - Object Types
+      summary: Get an object type
+      responses:
+        '200':
+          description: The requested object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+    put:
+      operationId: updateObjectType
+      tags:
+        - Object Types
+      summary: Update an object type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectType'
+      responses:
+        '200':
+          description: The updated object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectType'
+    delete:
+      operationId: deleteObjectType
+      tags:
+        - Object Types
+      summary: Delete an object type
+      responses:
+        '200':
+          description: The object type was deleted.
+  /v1/roles:
+    get:
+      operationId: listRoles
+      tags:
+        - Roles and Permissions
+      summary: List roles
+      description: Lists RBAC roles. Roles are objects of type role with permissions assigned via warrants. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of roles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+    post:
+      operationId: createRole
+      tags:
+        - Roles and Permissions
+      summary: Create a role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        '200':
+          description: The created role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+  /v1/roles/{roleId}/permissions/{permissionId}:
+    parameters:
+      - name: roleId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: permissionId
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: assignPermissionToRole
+      tags:
+        - Roles and Permissions
+      summary: Assign a permission to a role
+      description: Writes a warrant granting the permission to the role. RETIRED / modeled.
+      responses:
+        '200':
+          description: The permission was assigned to the role.
+    delete:
+      operationId: removePermissionFromRole
+      tags:
+        - Roles and Permissions
+      summary: Remove a permission from a role
+      responses:
+        '200':
+          description: The permission was removed from the role.
+  /v1/permissions:
+    get:
+      operationId: listPermissions
+      tags:
+        - Roles and Permissions
+      summary: List permissions
+      responses:
+        '200':
+          description: A list of permissions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Permission'
+    post:
+      operationId: createPermission
+      tags:
+        - Roles and Permissions
+      summary: Create a permission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Permission'
+      responses:
+        '200':
+          description: The created permission.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+  /v1/users:
+    get:
+      operationId: listUsers
+      tags:
+        - Roles and Permissions
+      summary: List users
+      description: Lists users. Users are objects of type user; a convenience wrapper over the Objects API. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+    post:
+      operationId: createUser
+      tags:
+        - Roles and Permissions
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+  /v1/tenants:
+    get:
+      operationId: listTenants
+      tags:
+        - Roles and Permissions
+      summary: List tenants
+      description: Lists tenants (organizations). Tenants are objects of type tenant. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of tenants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Object'
+    post:
+      operationId: createTenant
+      tags:
+        - Roles and Permissions
+      summary: Create a tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectCreate'
+      responses:
+        '200':
+          description: The created tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Object'
+  /v1/features:
+    get:
+      operationId: listFeatures
+      tags:
+        - Roles and Permissions
+      summary: List features
+      description: Lists entitlement features that can be granted to pricing tiers, tenants, or users. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of features.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feature'
+    post:
+      operationId: createFeature
+      tags:
+        - Roles and Permissions
+      summary: Create a feature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feature'
+      responses:
+        '200':
+          description: The created feature.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feature'
+  /v1/pricing-tiers:
+    get:
+      operationId: listPricingTiers
+      tags:
+        - Roles and Permissions
+      summary: List pricing tiers
+      description: Lists pricing tiers used for entitlement / feature gating. RETIRED / modeled.
+      responses:
+        '200':
+          description: A list of pricing tiers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PricingTier'
+    post:
+      operationId: createPricingTier
+      tags:
+        - Roles and Permissions
+      summary: Create a pricing tier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricingTier'
+      responses:
+        '200':
+          description: The created pricing tier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingTier'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'API key passed as `Authorization: ApiKey YOUR_API_KEY`. Self-hosted deployments configure the key via ApiKey in the server config.'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    ObjectCreate:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+          description: Optional; the server generates one if omitted.
+        meta:
+          type: object
+          additionalProperties: true
+    ObjectUpdate:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: true
+    Warrant:
+      type: object
+      required:
+        - objectType
+        - objectId
+        - relation
+        - subject
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        policy:
+          type: string
+          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
+    Subject:
+      type: object
+      required:
+        - objectType
+        - objectId
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+    CheckRequest:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+            - anyOf
+            - allOf
+          description: Combines multiple warrant checks in a batch.
+        warrants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Warrant'
+        context:
+          type: object
+          additionalProperties: true
+          description: Runtime attributes evaluated against warrant policies (ABAC).
+        debug:
+          type: boolean
+    CheckResult:
+      type: object
+      properties:
+        code:
+          type: integer
+        result:
+          type: string
+          description: '"Authorized" or "Not Authorized".'
+    QueryResult:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        isImplicit:
+          type: boolean
+    ObjectType:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        relations:
+          type: object
+          additionalProperties: true
+          description: Map of relation name to its definition (inheritance / implication rules).
+    Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Feature:
+      type: object
+      properties:
+        featureId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    PricingTier:
+      type: object
+      properties:
+        pricingTierId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
