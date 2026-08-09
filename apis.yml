@@ -2,19 +2,15 @@ aid: warrant-dev
 url: https://raw.githubusercontent.com/api-evangelist/warrant-dev/refs/heads/main/apis.yml
 name: Warrant
 kind: company
-description: >-
-  Warrant was a centralized, fine-grained authorization (FGA) and access control
-  service inspired by Google Zanzibar, exposing a real-time REST API to define an
-  authorization model, store relationships (warrants) between objects, and run
-  low-latency access checks and queries. It supported relationship-based (ReBAC),
-  role-based (RBAC), and attribute-based (ABAC) access control, plus entitlements
-  such as pricing tiers and feature gating. The core engine is open source
-  (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable. Warrant was
-  acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA; the standalone
-  hosted Warrant service (api.warrant.dev) and the Warrant-based WorkOS FGA were
-  deprecated and sunset on 2025-11-15. This entry documents Warrant's public API
-  surface historically - the endpoints modeled here reflect the documented
-  api.warrant.dev v1/v2 API and are RETIRED. Current fine-grained authorization
+description: Warrant was a centralized, fine-grained authorization (FGA) and access control service inspired
+  by Google Zanzibar, exposing a real-time REST API to define an authorization model, store relationships
+  (warrants) between objects, and run low-latency access checks and queries. It supported relationship-based
+  (ReBAC), role-based (RBAC), and attribute-based (ABAC) access control, plus entitlements such as pricing
+  tiers and feature gating. The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant)
+  and self-hostable. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA; the standalone
+  hosted Warrant service (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset
+  on 2025-11-15. This entry documents Warrant's public API surface historically - the endpoints modeled
+  here reflect the documented api.warrant.dev v1/v2 API and are RETIRED. Current fine-grained authorization
   is offered through WorkOS; the open-source engine remains self-hostable.
 accessModel:
   pricing: freemium
@@ -43,7 +39,7 @@ tags:
 - Open Source
 - Retired
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-08-08'
 specificationVersion: '0.19'
 apis:
 - aid: warrant-dev:warrant-dev-check-api
@@ -108,8 +104,8 @@ apis:
     url: https://workos.com/docs/fga/resource-types
 - aid: warrant-dev:warrant-dev-roles-and-permissions-api
   name: Warrant Roles and Permissions API
-  description: >-
-    RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
+  description: RBAC and entitlements convenience surface (roles, permissions, users, tenants, features,
+    pricing tiers).
   humanURL: https://github.com/warrant-dev/warrant
   baseURL: https://api.warrant.dev/v1
   tags:
@@ -170,6 +166,10 @@ common:
   url: finops/warrant-dev-finops.yml
 - url: https://blog.warrant.dev
   type: Blog
+- type: PublicAPIsListing
+  url: https://github.com/public-apis/public-apis
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-merged-from:
+- warrant
