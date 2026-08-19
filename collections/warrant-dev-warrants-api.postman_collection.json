@@ -1,0 +1,435 @@
+{
+  "item": [
+    {
+      "id": "5eb7750e-4b37-4285-81d9-d09b345fad19",
+      "name": "Warrants",
+      "description": {
+        "content": "Relationship tuples (access rules) between subjects and objects.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc558da8-9421-42f8-a2b9-e5d74ea56e19",
+          "name": "List / query warrants",
+          "request": {
+            "name": "List / query warrants",
+            "description": {
+              "content": "Lists warrants, optionally filtered by object type, object id, relation, or subject. RETIRED / modeled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "warrants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "objectType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "objectId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "relation",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subject.objectType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subject.objectId",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8294b7ea-e1f9-4321-936a-ad6e44a67747",
+              "name": "A list of warrants.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "warrants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "objectType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "objectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject.objectType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject.objectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"objectType\": \"string\",\n    \"objectId\": \"string\",\n    \"relation\": \"string\",\n    \"subject\": {\n      \"objectType\": \"string\",\n      \"objectId\": \"string\",\n      \"relation\": \"string\"\n    },\n    \"policy\": \"string\"\n  },\n  {\n    \"objectType\": \"string\",\n    \"objectId\": \"string\",\n    \"relation\": \"string\",\n    \"subject\": {\n      \"objectType\": \"string\",\n      \"objectId\": \"string\",\n      \"relation\": \"string\"\n    },\n    \"policy\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fef526c-c0f3-4b7c-967a-f1f940e9d2ff",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "warrants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "objectType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "objectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "relation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject.objectType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject.objectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1369,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "74761c3d-fae6-4cc2-bbf6-12b88e3b3402",
+          "name": "Create a warrant",
+          "request": {
+            "name": "Create a warrant",
+            "description": {
+              "content": "Assigns a relation between a subject and an object (grants access). RETIRED / modeled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "warrants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectType\": \"<string>\",\n  \"objectId\": \"<string>\",\n  \"relation\": \"<string>\",\n  \"subject\": {\n    \"objectType\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"relation\": \"<string>\"\n  },\n  \"policy\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6025bfa4-76c4-45c9-89e4-c0a2a31566ca",
+              "name": "The created warrant.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "warrants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"objectType\": \"<string>\",\n  \"objectId\": \"<string>\",\n  \"relation\": \"<string>\",\n  \"subject\": {\n    \"objectType\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"relation\": \"<string>\"\n  },\n  \"policy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"objectType\": \"<string>\",\n  \"objectId\": \"<string>\",\n  \"relation\": \"<string>\",\n  \"subject\": {\n    \"objectType\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"relation\": \"<string>\"\n  },\n  \"policy\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "35838ef7-4e19-4aef-9da3-b1252163e68f",
+          "name": "Delete a warrant",
+          "request": {
+            "name": "Delete a warrant",
+            "description": {
+              "content": "Removes a relation between a subject and an object (revokes access). RETIRED / modeled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "warrants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectType\": \"<string>\",\n  \"objectId\": \"<string>\",\n  \"relation\": \"<string>\",\n  \"subject\": {\n    \"objectType\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"relation\": \"<string>\"\n  },\n  \"policy\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0af4d7b9-335a-4c7f-a75e-5fda4a01ae96",
+              "name": "The warrant was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "warrants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"objectType\": \"<string>\",\n  \"objectId\": \"<string>\",\n  \"relation\": \"<string>\",\n  \"subject\": {\n    \"objectType\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"relation\": \"<string>\"\n  },\n  \"policy\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.warrant.dev",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7efa9d01-9763-48f5-ad49-b3fa69f33043",
+    "name": "Warrant Check Warrants API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.\nSTATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant's publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.\n\nContact Support:\n Name: Warrant (now WorkOS FGA)",
+      "type": "text/plain"
+    }
+  }
+}

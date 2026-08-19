@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant Check Objects API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Objects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List objects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/objects",
+            "params": [
+              {
+                "name": "objectType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists objects, optionally filtered by object type. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create an object",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/objects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an object of a given type with an optional id and metadata. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Get an object",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/objects/:objectType/:objectId",
+            "params": [
+              {
+                "name": "objectType",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "objectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an object"
+        },
+        {
+          "info": {
+            "name": "Update an object's metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.warrant.dev/v1/objects/:objectType/:objectId",
+            "params": [
+              {
+                "name": "objectType",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "objectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an object's metadata"
+        },
+        {
+          "info": {
+            "name": "Delete an object",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.warrant.dev/v1/objects/:objectType/:objectId",
+            "params": [
+              {
+                "name": "objectType",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "objectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an object"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

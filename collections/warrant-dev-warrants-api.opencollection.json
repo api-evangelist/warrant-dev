@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant Check Warrants API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Warrants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List / query warrants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/warrants",
+            "params": [
+              {
+                "name": "objectType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "objectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "relation",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subject.objectType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subject.objectId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists warrants, optionally filtered by object type, object id, relation, or subject. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a warrant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/warrants",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assigns a relation between a subject and an object (grants access). RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Delete a warrant",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.warrant.dev/v1/warrants",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes a relation between a subject and an object (revokes access). RETIRED / modeled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

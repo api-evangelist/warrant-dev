@@ -1,0 +1,369 @@
+{
+  "item": [
+    {
+      "id": "09c57fe4-b430-476a-841d-7293f775e63a",
+      "name": "Check",
+      "description": {
+        "content": "Real-time access checks and relationship queries.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39b5c9ae-5bd5-46b4-9b3b-2528f8c268f3",
+          "name": "Check access",
+          "request": {
+            "name": "Check access",
+            "description": {
+              "content": "The hot-path authorization check. Returns whether a subject has the requested relation/permission on one or more objects, optionally evaluating a batch with anyOf/allOf semantics. RETIRED / modeled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "authorize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"op\": \"<string>\",\n  \"warrants\": [\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    },\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    }\n  ],\n  \"context\": {\n    \"key_0\": 3902\n  },\n  \"debug\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a575ee52-2569-46a0-a90e-2c0e4794570d",
+              "name": "The authorization decision.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"op\": \"<string>\",\n  \"warrants\": [\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    },\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    }\n  ],\n  \"context\": {\n    \"key_0\": true,\n    \"key_1\": 5084\n  },\n  \"debug\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2578,\n  \"result\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8943d1b-7942-4ebd-9d2f-ed3f7b9e2a2a",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"op\": \"<string>\",\n  \"warrants\": [\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    },\n    {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\",\n      \"subject\": {\n        \"objectType\": \"<string>\",\n        \"objectId\": \"<string>\",\n        \"relation\": \"<string>\"\n      },\n      \"policy\": \"<string>\"\n    }\n  ],\n  \"context\": {\n    \"key_0\": true,\n    \"key_1\": 5084\n  },\n  \"debug\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5473,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b99c2e4-27a8-4688-a610-c9eab68ec22f",
+          "name": "Query relationships",
+          "request": {
+            "name": "Query relationships",
+            "description": {
+              "content": "Runs a Warrant Query Language (WQL) expression to enumerate which subjects have access to an object, or which objects a subject can access. RETIRED / modeled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) A Warrant Query Language expression."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3de84855-faa1-4de7-84f3-2fcf96b90193",
+              "name": "Query results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"objectType\": \"string\",\n    \"objectId\": \"string\",\n    \"relation\": \"string\",\n    \"subject\": {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\"\n    },\n    \"isImplicit\": false\n  },\n  {\n    \"objectType\": \"string\",\n    \"objectId\": \"string\",\n    \"relation\": \"string\",\n    \"subject\": {\n      \"objectType\": \"<string>\",\n      \"objectId\": \"<string>\",\n      \"relation\": \"<string>\"\n    },\n    \"isImplicit\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a11b2a1-ead6-49c1-b80a-a483c5daeabb",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5473,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.warrant.dev",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "90b902c9-e6a8-4c54-96ee-add57f7cc3f5",
+    "name": "Warrant Check API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.\nSTATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant's publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.\n\nContact Support:\n Name: Warrant (now WorkOS FGA)",
+      "type": "text/plain"
+    }
+  }
+}

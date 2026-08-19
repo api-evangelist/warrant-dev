@@ -1,0 +1,228 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant Check Roles and Permissions API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roles and Permissions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/roles"
+          },
+          "docs": "Lists RBAC roles. Roles are objects of type role with permissions assigned via warrants. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/roles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a role"
+        },
+        {
+          "info": {
+            "name": "Assign a permission to a role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/roles/:roleId/permissions/:permissionId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "permissionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Writes a warrant granting the permission to the role. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Remove a permission from a role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.warrant.dev/v1/roles/:roleId/permissions/:permissionId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "permissionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a permission from a role"
+        },
+        {
+          "info": {
+            "name": "List permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/permissions"
+          },
+          "docs": "List permissions"
+        },
+        {
+          "info": {
+            "name": "Create a permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/permissions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a permission"
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/users"
+          },
+          "docs": "Lists users. Users are objects of type user; a convenience wrapper over the Objects API. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a user"
+        },
+        {
+          "info": {
+            "name": "List tenants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/tenants"
+          },
+          "docs": "Lists tenants (organizations). Tenants are objects of type tenant. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/tenants",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a tenant"
+        },
+        {
+          "info": {
+            "name": "List features",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/features"
+          },
+          "docs": "Lists entitlement features that can be granted to pricing tiers, tenants, or users. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a feature",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/features",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a feature"
+        },
+        {
+          "info": {
+            "name": "List pricing tiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/pricing-tiers"
+          },
+          "docs": "Lists pricing tiers used for entitlement / feature gating. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create a pricing tier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/pricing-tiers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a pricing tier"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant Check API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Check",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v2/authorize",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The hot-path authorization check. Returns whether a subject has the requested relation/permission on one or more objects, optionally evaluating a batch with anyOf/allOf semantics. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Query relationships",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/query",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A Warrant Query Language expression."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Runs a Warrant Query Language (WQL) expression to enumerate which subjects have access to an object, or which objects a subject can access. RETIRED / modeled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

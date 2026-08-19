@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Warrant Check Object Types API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Object Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List object types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/object-types"
+          },
+          "docs": "Lists the object (resource) types that make up the authorization model. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Create an object type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.warrant.dev/v1/object-types",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Defines a new object type and its relations. RETIRED / modeled."
+        },
+        {
+          "info": {
+            "name": "Get an object type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.warrant.dev/v1/object-types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an object type"
+        },
+        {
+          "info": {
+            "name": "Update an object type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.warrant.dev/v1/object-types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an object type"
+        },
+        {
+          "info": {
+            "name": "Delete an object type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.warrant.dev/v1/object-types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an object type"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
