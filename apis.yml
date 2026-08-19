@@ -40,7 +40,7 @@ tags:
 - Retired
 created: '2026-07-11'
 modified: '2026-08-08'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: warrant-dev:warrant-dev-check-api
   name: Warrant Check API
