@@ -36,6 +36,18 @@ tags:
 - ABAC
 - Zanzibar
 - Permissions
+- Open-Source
+- Retired
+tags_raw:
+- Access Control
+- Authorization
+- Fine-Grained Authorization
+- FGA
+- RBAC
+- ReBAC
+- ABAC
+- Zanzibar
+- Permissions
 - Open Source
 - Retired
 created: '2026-07-11'
@@ -109,6 +121,8 @@ apis:
   humanURL: https://github.com/warrant-dev/warrant
   baseURL: https://api.warrant.dev/v1
   tags:
+  - Roles & Permissions
+  tags_raw:
   - Roles and Permissions
   properties:
   - type: OpenAPI
