@@ -12,6 +12,18 @@ description: Warrant was a centralized, fine-grained authorization (FGA) and acc
   on 2025-11-15. This entry documents Warrant's public API surface historically - the endpoints modeled
   here reflect the documented api.warrant.dev v1/v2 API and are RETIRED. Current fine-grained authorization
   is offered through WorkOS; the open-source engine remains self-hostable.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
