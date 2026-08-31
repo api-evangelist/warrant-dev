@@ -133,7 +133,7 @@ apis:
   humanURL: https://github.com/warrant-dev/warrant
   baseURL: https://api.warrant.dev/v1
   tags:
-  - Roles & Permissions
+  - Roles and Permissions
   tags_raw:
   - Roles and Permissions
   properties:
