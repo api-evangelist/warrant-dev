@@ -126,29 +126,6 @@ apis:
     url: https://workos.com/docs/fga
   - type: Documentation
     url: https://workos.com/docs/fga/resource-types
-- aid: warrant-dev:warrant-dev-roles-and-permissions-api
-  name: Warrant Roles and Permissions API
-  description: RBAC and entitlements convenience surface (roles, permissions, users, tenants, features,
-    pricing tiers).
-  humanURL: https://github.com/warrant-dev/warrant
-  baseURL: https://api.warrant.dev/v1
-  tags:
-  - Roles & Permissions
-  tags_raw:
-  - Roles and Permissions
-  properties:
-  - type: OpenAPI
-    url: openapi/warrant-dev-roles-and-permissions-api-openapi.yml
-  - type: Documentation
-    url: https://github.com/warrant-dev/warrant
-  - type: APIReference
-    url: https://workos.com/docs/fga
-  - type: Documentation
-    url: https://workos.com/docs/fga/warrants
-  - type: Documentation
-    url: https://workos.com/docs/fga
-  - type: Documentation
-    url: https://workos.com/docs/fga/resource-types
 - aid: warrant-dev:warrant-dev-warrants-api
   name: Warrant Warrants API
   description: Relationship tuples (access rules) between subjects and objects.
@@ -159,6 +136,27 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/warrant-dev-warrants-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/warrant-dev/warrant
+  - type: APIReference
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/warrants
+  - type: Documentation
+    url: https://workos.com/docs/fga
+  - type: Documentation
+    url: https://workos.com/docs/fga/resource-types
+- aid: warrant-dev:warrant-dev-roles-permissions-api
+  name: Warrant Roles & Permissions API
+  description: >-
+    RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
+  humanURL: https://github.com/warrant-dev/warrant
+  baseURL: https://api.warrant.dev/v1
+  tags:
+  - Roles & Permissions
+  properties:
+  - type: OpenAPI
+    url: openapi/warrant-dev-roles-permissions-api-openapi.yml
   - type: Documentation
     url: https://github.com/warrant-dev/warrant
   - type: APIReference
