@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Warrant Check Roles and Permissions API
-  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
-
-    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  title: Warrant Roles and Permissions API
+  description: Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar.
   version: '1.0'
   contact:
     name: Warrant (now WorkOS FGA)
@@ -19,14 +17,14 @@ servers:
 security:
 - apiKeyAuth: []
 tags:
-- name: Roles and Permissions
+- name: Roles & Permissions
   description: RBAC and entitlements convenience surface (roles, permissions, users, tenants, features, pricing tiers).
 paths:
   /v1/roles:
     get:
       operationId: listRoles
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List roles
       description: Lists RBAC roles. Roles are objects of type role with permissions assigned via warrants. RETIRED / modeled.
       responses:
@@ -41,7 +39,7 @@ paths:
     post:
       operationId: createRole
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a role
       requestBody:
         required: true
@@ -71,7 +69,7 @@ paths:
     post:
       operationId: assignPermissionToRole
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Assign a permission to a role
       description: Writes a warrant granting the permission to the role. RETIRED / modeled.
       responses:
@@ -80,7 +78,7 @@ paths:
     delete:
       operationId: removePermissionFromRole
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Remove a permission from a role
       responses:
         '200':
@@ -89,7 +87,7 @@ paths:
     get:
       operationId: listPermissions
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List permissions
       responses:
         '200':
@@ -103,7 +101,7 @@ paths:
     post:
       operationId: createPermission
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a permission
       requestBody:
         required: true
@@ -122,7 +120,7 @@ paths:
     get:
       operationId: listUsers
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List users
       description: Lists users. Users are objects of type user; a convenience wrapper over the Objects API. RETIRED / modeled.
       responses:
@@ -137,7 +135,7 @@ paths:
     post:
       operationId: createUser
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a user
       requestBody:
         required: true
@@ -156,7 +154,7 @@ paths:
     get:
       operationId: listTenants
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List tenants
       description: Lists tenants (organizations). Tenants are objects of type tenant. RETIRED / modeled.
       responses:
@@ -171,7 +169,7 @@ paths:
     post:
       operationId: createTenant
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a tenant
       requestBody:
         required: true
@@ -190,7 +188,7 @@ paths:
     get:
       operationId: listFeatures
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List features
       description: Lists entitlement features that can be granted to pricing tiers, tenants, or users. RETIRED / modeled.
       responses:
@@ -205,7 +203,7 @@ paths:
     post:
       operationId: createFeature
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a feature
       requestBody:
         required: true
@@ -224,7 +222,7 @@ paths:
     get:
       operationId: listPricingTiers
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: List pricing tiers
       description: Lists pricing tiers used for entitlement / feature gating. RETIRED / modeled.
       responses:
@@ -239,7 +237,7 @@ paths:
     post:
       operationId: createPricingTier
       tags:
-      - Roles and Permissions
+      - Roles & Permissions
       summary: Create a pricing tier
       requestBody:
         required: true
@@ -256,50 +254,10 @@ paths:
                 $ref: '#/components/schemas/PricingTier'
 components:
   schemas:
-    Object:
-      type: object
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        meta:
-          type: object
-          additionalProperties: true
-        createdAt:
-          type: string
-          format: date-time
-    Role:
-      type: object
-      properties:
-        roleId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
     PricingTier:
       type: object
       properties:
         pricingTierId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    Permission:
-      type: object
-      properties:
-        permissionId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    Feature:
-      type: object
-      properties:
-        featureId:
           type: string
         name:
           type: string
@@ -318,6 +276,46 @@ components:
         meta:
           type: object
           additionalProperties: true
+    Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    Feature:
+      type: object
+      properties:
+        featureId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

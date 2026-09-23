@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Warrant Check Objects API
-  description: 'Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar. Applications defined an authorization model (object types and relations), wrote relationship tuples called warrants between objects, and then ran real-time access checks and relationship queries. The service supported ReBAC, RBAC, and ABAC, plus entitlements (features and pricing tiers). The core engine is open source (Apache-2.0, github.com/warrant-dev/warrant) and self-hostable against MySQL, Postgres, or SQLite; the self-hosted server listens on port 8000 by default. The hosted service used base URL https://api.warrant.dev with API-key authentication via the `Authorization: ApiKey <key>` header.
-
-    STATUS - RETIRED. Warrant was acquired by WorkOS on 2024-04-23 and folded into WorkOS FGA. The standalone hosted Warrant API (api.warrant.dev) and the Warrant-based WorkOS FGA were deprecated and sunset on 2025-11-15. The paths below are MODELED from Warrant''s publicly documented v1/v2 API for historical and access-control reference; they are not a live contract. Verify current fine-grained authorization at https://workos.com/docs/fga.'
+  title: Warrant Objects API
+  description: Warrant was a centralized, fine-grained authorization (FGA) service inspired by Google Zanzibar.
   version: '1.0'
   contact:
     name: Warrant (now WorkOS FGA)
@@ -128,6 +126,26 @@ paths:
           description: The object was deleted.
 components:
   schemas:
+    ObjectCreate:
+      type: object
+      required:
+      - objectType
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+          description: Optional; the server generates one if omitted.
+        meta:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Object:
       type: object
       properties:
@@ -144,26 +162,6 @@ components:
     ObjectUpdate:
       type: object
       properties:
-        meta:
-          type: object
-          additionalProperties: true
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    ObjectCreate:
-      type: object
-      required:
-      - objectType
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-          description: Optional; the server generates one if omitted.
         meta:
           type: object
           additionalProperties: true
