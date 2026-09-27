@@ -48,7 +48,7 @@ tags:
 - ABAC
 - Zanzibar
 - Permissions
-- Open-Source
+- Open Source
 - Retired
 tags_raw:
 - Access Control
@@ -62,6 +62,7 @@ tags_raw:
 - Permissions
 - Open Source
 - Retired
+- Open-Source
 created: '2026-07-11'
 modified: '2026-08-08'
 specificationVersion: '0.23'

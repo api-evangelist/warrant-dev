@@ -94,14 +94,14 @@ paths:
         '200':
           description: The warrant was deleted.
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Warrant:
       type: object
       required:
@@ -121,13 +121,6 @@ components:
         policy:
           type: string
           description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
     Subject:
       type: object
       required:
@@ -140,6 +133,13 @@ components:
           type: string
         relation:
           type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

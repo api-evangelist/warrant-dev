@@ -77,37 +77,14 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    CheckRequest:
+    CheckResult:
       type: object
       properties:
-        op:
+        code:
+          type: integer
+        result:
           type: string
-          enum:
-          - anyOf
-          - allOf
-          description: Combines multiple warrant checks in a batch.
-        warrants:
-          type: array
-          items:
-            $ref: '#/components/schemas/Warrant'
-        context:
-          type: object
-          additionalProperties: true
-          description: Runtime attributes evaluated against warrant policies (ABAC).
-        debug:
-          type: boolean
-    Subject:
-      type: object
-      required:
-      - objectType
-      - objectId
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
+          description: '"Authorized" or "Not Authorized".'
     Warrant:
       type: object
       required:
@@ -134,6 +111,37 @@ components:
           type: integer
         message:
           type: string
+    Subject:
+      type: object
+      required:
+      - objectType
+      - objectId
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+    CheckRequest:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - anyOf
+          - allOf
+          description: Combines multiple warrant checks in a batch.
+        warrants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Warrant'
+        context:
+          type: object
+          additionalProperties: true
+          description: Runtime attributes evaluated against warrant policies (ABAC).
+        debug:
+          type: boolean
     QueryResult:
       type: object
       properties:
@@ -147,14 +155,6 @@ components:
           $ref: '#/components/schemas/Subject'
         isImplicit:
           type: boolean
-    CheckResult:
-      type: object
-      properties:
-        code:
-          type: integer
-        result:
-          type: string
-          description: '"Authorized" or "Not Authorized".'
   responses:
     Unauthorized:
       description: Missing or invalid API key.

@@ -254,15 +254,6 @@ paths:
                 $ref: '#/components/schemas/PricingTier'
 components:
   schemas:
-    PricingTier:
-      type: object
-      properties:
-        pricingTierId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
     ObjectCreate:
       type: object
       required:
@@ -276,6 +267,33 @@ components:
         meta:
           type: object
           additionalProperties: true
+    Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    PricingTier:
+      type: object
+      properties:
+        pricingTierId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Feature:
+      type: object
+      properties:
+        featureId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
     Role:
       type: object
       properties:
@@ -298,24 +316,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    Feature:
-      type: object
-      properties:
-        featureId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    Permission:
-      type: object
-      properties:
-        permissionId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
