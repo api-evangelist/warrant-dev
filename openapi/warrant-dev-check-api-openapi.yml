@@ -77,40 +77,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    CheckResult:
-      type: object
-      properties:
-        code:
-          type: integer
-        result:
-          type: string
-          description: '"Authorized" or "Not Authorized".'
-    Warrant:
-      type: object
-      required:
-      - objectType
-      - objectId
-      - relation
-      - subject
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-        subject:
-          $ref: '#/components/schemas/Subject'
-        policy:
-          type: string
-          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
     Subject:
       type: object
       required:
@@ -142,6 +108,14 @@ components:
           description: Runtime attributes evaluated against warrant policies (ABAC).
         debug:
           type: boolean
+    CheckResult:
+      type: object
+      properties:
+        code:
+          type: integer
+        result:
+          type: string
+          description: '"Authorized" or "Not Authorized".'
     QueryResult:
       type: object
       properties:
@@ -155,6 +129,32 @@ components:
           $ref: '#/components/schemas/Subject'
         isImplicit:
           type: boolean
+    Warrant:
+      type: object
+      required:
+      - objectType
+      - objectId
+      - relation
+      - subject
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        policy:
+          type: string
+          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key.

@@ -95,12 +95,17 @@ paths:
           description: The warrant was deleted.
 components:
   schemas:
-    Error:
+    Subject:
       type: object
+      required:
+      - objectType
+      - objectId
       properties:
-        code:
-          type: integer
-        message:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
           type: string
     Warrant:
       type: object
@@ -121,17 +126,12 @@ components:
         policy:
           type: string
           description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
-    Subject:
+    Error:
       type: object
-      required:
-      - objectType
-      - objectId
       properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
+        code:
+          type: integer
+        message:
           type: string
   responses:
     Unauthorized:

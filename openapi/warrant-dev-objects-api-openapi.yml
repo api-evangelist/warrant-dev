@@ -125,20 +125,26 @@ paths:
         '200':
           description: The object was deleted.
 components:
-  responses:
-    NotFound:
-      description: The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    ObjectUpdate:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: true
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
     ObjectCreate:
       type: object
       required:
@@ -159,25 +165,19 @@ components:
           type: integer
         message:
           type: string
-    Object:
-      type: object
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        meta:
-          type: object
-          additionalProperties: true
-        createdAt:
-          type: string
-          format: date-time
-    ObjectUpdate:
-      type: object
-      properties:
-        meta:
-          type: object
-          additionalProperties: true
+  responses:
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
