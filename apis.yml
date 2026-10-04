@@ -169,6 +169,9 @@ apis:
   - type: Documentation
     url: https://workos.com/docs/fga/resource-types
 common:
+- type: CapabilityMap
+  url: capabilities/warrant-dev-capability-edges.yml
+  name: Warrant Business Capability Map
 - type: AgenticAccess
   url: agentic-access/warrant-dev-agentic-access.yml
 - type: Authentication
