@@ -89,6 +89,38 @@ components:
           type: string
         relation:
           type: string
+    Warrant:
+      type: object
+      required:
+      - objectType
+      - objectId
+      - relation
+      - subject
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        policy:
+          type: string
+          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
+    QueryResult:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        isImplicit:
+          type: boolean
     CheckRequest:
       type: object
       properties:
@@ -116,38 +148,6 @@ components:
         result:
           type: string
           description: '"Authorized" or "Not Authorized".'
-    QueryResult:
-      type: object
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-        subject:
-          $ref: '#/components/schemas/Subject'
-        isImplicit:
-          type: boolean
-    Warrant:
-      type: object
-      required:
-      - objectType
-      - objectId
-      - relation
-      - subject
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-        subject:
-          $ref: '#/components/schemas/Subject'
-        policy:
-          type: string
-          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
     Error:
       type: object
       properties:

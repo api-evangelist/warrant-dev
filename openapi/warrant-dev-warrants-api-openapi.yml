@@ -107,6 +107,13 @@ components:
           type: string
         relation:
           type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Warrant:
       type: object
       required:
@@ -126,13 +133,6 @@ components:
         policy:
           type: string
           description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key.

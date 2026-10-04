@@ -126,12 +126,6 @@ paths:
           description: The object was deleted.
 components:
   schemas:
-    ObjectUpdate:
-      type: object
-      properties:
-        meta:
-          type: object
-          additionalProperties: true
     Object:
       type: object
       properties:
@@ -145,6 +139,12 @@ components:
         createdAt:
           type: string
           format: date-time
+    ObjectUpdate:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: true
     ObjectCreate:
       type: object
       required:
