@@ -254,6 +254,15 @@ paths:
                 $ref: '#/components/schemas/PricingTier'
 components:
   schemas:
+    Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
     Object:
       type: object
       properties:
@@ -276,24 +285,6 @@ components:
           type: string
         description:
           type: string
-    Role:
-      type: object
-      properties:
-        roleId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    Permission:
-      type: object
-      properties:
-        permissionId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
     ObjectCreate:
       type: object
       required:
@@ -307,6 +298,15 @@ components:
         meta:
           type: object
           additionalProperties: true
+    Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
     PricingTier:
       type: object
       properties:

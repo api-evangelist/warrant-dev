@@ -95,6 +95,13 @@ paths:
           description: The warrant was deleted.
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Subject:
       type: object
       required:
@@ -106,13 +113,6 @@ components:
         objectId:
           type: string
         relation:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
           type: string
     Warrant:
       type: object

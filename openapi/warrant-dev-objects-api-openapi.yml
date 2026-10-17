@@ -125,46 +125,6 @@ paths:
         '200':
           description: The object was deleted.
 components:
-  schemas:
-    Object:
-      type: object
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        meta:
-          type: object
-          additionalProperties: true
-        createdAt:
-          type: string
-          format: date-time
-    ObjectUpdate:
-      type: object
-      properties:
-        meta:
-          type: object
-          additionalProperties: true
-    ObjectCreate:
-      type: object
-      required:
-      - objectType
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-          description: Optional; the server generates one if omitted.
-        meta:
-          type: object
-          additionalProperties: true
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
   responses:
     NotFound:
       description: The requested resource does not exist.
@@ -178,6 +138,46 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    ObjectUpdate:
+      type: object
+      properties:
+        meta:
+          type: object
+          additionalProperties: true
+    Object:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    ObjectCreate:
+      type: object
+      required:
+      - objectType
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+          description: Optional; the server generates one if omitted.
+        meta:
+          type: object
+          additionalProperties: true
   securitySchemes:
     apiKeyAuth:
       type: apiKey

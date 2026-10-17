@@ -77,50 +77,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Subject:
-      type: object
-      required:
-      - objectType
-      - objectId
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-    Warrant:
-      type: object
-      required:
-      - objectType
-      - objectId
-      - relation
-      - subject
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-        subject:
-          $ref: '#/components/schemas/Subject'
-        policy:
-          type: string
-          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
-    QueryResult:
-      type: object
-      properties:
-        objectType:
-          type: string
-        objectId:
-          type: string
-        relation:
-          type: string
-        subject:
-          $ref: '#/components/schemas/Subject'
-        isImplicit:
-          type: boolean
     CheckRequest:
       type: object
       properties:
@@ -140,6 +96,57 @@ components:
           description: Runtime attributes evaluated against warrant policies (ABAC).
         debug:
           type: boolean
+    Warrant:
+      type: object
+      required:
+      - objectType
+      - objectId
+      - relation
+      - subject
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        policy:
+          type: string
+          description: Optional ABAC condition (boolean expression) that must hold for the warrant to apply.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    QueryResult:
+      type: object
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
+        subject:
+          $ref: '#/components/schemas/Subject'
+        isImplicit:
+          type: boolean
+    Subject:
+      type: object
+      required:
+      - objectType
+      - objectId
+      properties:
+        objectType:
+          type: string
+        objectId:
+          type: string
+        relation:
+          type: string
     CheckResult:
       type: object
       properties:
@@ -148,13 +155,6 @@ components:
         result:
           type: string
           description: '"Authorized" or "Not Authorized".'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid API key.
