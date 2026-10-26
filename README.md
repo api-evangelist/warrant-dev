@@ -1,0 +1,177 @@
+# Warrant (warrant-dev)
+
+<!-- API-EVANGELIST-PROVENANCE:BEGIN -->
+> ### About this repository
+>
+> **This is not our API.** This repository is an independent, third-party profile of a company's
+> **publicly available** API surface, maintained by [API Evangelist](https://apievangelist.com).
+> API Evangelist does not operate, host, resell, or support this company's APIs, and is not
+> affiliated with or endorsed by the company unless stated on the profile.
+>
+> **Where the information came from.** Everything here is assembled from material a member of the
+> public can reach with a browser and no credentials — the company's own website, developer portal
+> and documentation, the specifications it publishes for public use (OpenAPI, AsyncAPI, JSON Schema,
+> `apis.json`, `llms.txt` and similar), its public repositories, and its public status, pricing and
+> changelog pages. **Nothing here is obtained by breaching a system, defeating an access control, or
+> using credentials of any kind.**
+>
+> **The rating is an independent assessment.** The Kin Score and Agent Readiness rating are
+> independently calculated scores of a company's *public* API artifacts, produced by API Evangelist
+> against a published rubric. They are not certifications, endorsements, security assessments, or
+> audits, and they score published artifacts — not the quality, safety, or security of the software.
+>
+> **Corrections, re-scores, and removal are free.** No partnership, contract, or purchase is
+> required, and you do not need to justify the request.
+>
+> - **Something wrong?** Open an issue on this repository, or email
+>   [info@apievangelist.com](mailto:info@apievangelist.com).
+> - **Published something new?** Ask for a re-score and we will re-run the rating.
+> - **Want the listing taken down?** Say so and we will honor it. The profile is reduced to your
+>   company name, a factual description, and a link to your own site, and the company is recorded as
+>   **unrated** — never scored zero for having asked.
+>
+> **Response times.** Acknowledgement within **one business day**; removal or restriction within
+> **two business days**; corrections and re-scores within **five business days**.
+>
+> **Not from the company, and here with a question?** You are welcome here — we would rather be the
+> front line and point you the right way than have a good report go nowhere. What this repository
+> can answer is narrow, though, so it is worth knowing who you are actually looking for:
+>
+> - **A question about how the API works, an account, billing, or a bug in the service** — that is
+>   the company's own support, not us. We profile this API; we do not operate it and cannot see
+>   your account.
+> - **A bug in an open-source project we only catalog** — file it on that project's own repository.
+>   This has happened with a real and correct bug report that reached us instead of the people who
+>   could fix it, which helped nobody.
+> - **Anything about this listing itself** — the description, the tags, the rating, a missing or
+>   wrong artifact — is ours. Open an issue here.
+> - **Not sure, or something general about API Evangelist or APIs.io** — open an issue on the
+>   [APIs.io Inbox](https://github.com/api-search/inbox) and we will route it.
+>
+> **This repository contains no software, and we will never ask you to download anything.** There is
+> no build, release, installer, or binary here — only text and machine-readable API descriptions, so
+> there is nothing here that can be "corrupt" or need "repairing". Any issue, comment, or email
+> claiming otherwise and offering a download link is not from us and is hostile. Do not follow the
+> link; it is a lure. Report it to GitHub and, if you like, tell us at
+> [info@apievangelist.com](mailto:info@apievangelist.com) so we can take it down.
+>
+> **On a security or compliance team?** Email
+> [info@apievangelist.com](mailto:info@apievangelist.com) with *security* in the subject line and
+> you will get a person, not a form. We will tell you exactly which public URLs this profile was
+> built from so your team can see the same surface we did, and we will take the listing down on
+> request while you work through it.
+>
+> Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
+<!-- API-EVANGELIST-PROVENANCE:END -->
+
+Warrant was a centralized, fine-grained authorization (FGA) and access control service inspired by Google Zanzibar. It exposed a real-time REST API to define an authorization model, store relationships (called **warrants**) between objects, and run low-latency **access checks** and relationship **queries**. It supported relationship-based (ReBAC), role-based (RBAC), and attribute-based (ABAC) access control, plus entitlements such as pricing tiers and feature gating. The core engine is open source (Apache-2.0, [github.com/warrant-dev/warrant](https://github.com/warrant-dev/warrant)) and self-hostable against MySQL, Postgres, or SQLite.
+
+> **Status: RETIRED (transition).** Warrant was acquired by **WorkOS** on **2024-04-23** and folded into **WorkOS FGA**. The standalone hosted Warrant service (`api.warrant.dev`) and the Warrant-based WorkOS FGA were **deprecated and sunset on 2025-11-15**; a re-architected FGA is in development at WorkOS. The `docs.warrant.dev` host no longer resolves. This entry documents Warrant's public API **historically** — the endpoints below are **modeled** from Warrant's documented `api.warrant.dev` v1/v2 API and the open-source engine, not from a live contract. Current fine-grained authorization is offered through [WorkOS FGA](https://workos.com/docs/fga); the **open-source engine remains self-hostable** and is not retired.
+
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/warrant-dev/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/warrant-dev/refs/heads/main/apis.yml)
+
+## Access Model
+
+Warrant is an implementation of Google's Zanzibar design. You authorize by storing **relationship tuples** and then asking the check engine questions:
+
+- **Authorization model** — you declare **object types** (e.g. `document`, `folder`, `tenant`, `role`) and the **relations** between them, including inheritance/implication rules (a `document` can inherit `editor` from its parent `folder`).
+- **Warrants** — access rules of the form `subject is relation of object` (e.g. `user:1 is editor of document:xyz`). Writing a warrant grants access; deleting it revokes access.
+- **Check** — the hot-path decision: `POST /v2/authorize` returns whether a subject has a relation/permission on an object, optionally batched with `anyOf`/`allOf` and evaluated against runtime attributes (ABAC).
+- **Query** — `GET /v1/query` runs the **Warrant Query Language (WQL)** to enumerate which subjects can access an object, or which objects a subject can access.
+- **RBAC & entitlements** — convenience surfaces for `roles`, `permissions`, `users`, `tenants`, `features`, and `pricing-tiers`, all built on top of objects and warrants.
+
+**Authentication:** API key in the `Authorization: ApiKey <key>` header. The hosted base URL was `https://api.warrant.dev`; the open-source self-hosted server listens on `http://localhost:8000` by default.
+
+## Tags
+
+- Access Control
+- Authorization
+- Fine-Grained Authorization
+- FGA
+- RBAC
+- ReBAC
+- ABAC
+- Zanzibar
+- Permissions
+- Open Source
+- Retired
+
+## Timestamps
+
+- **Created:** 2026-07-11
+- **Modified:** 2026-07-11
+
+## APIs
+
+### Warrant Objects API
+
+Create, list, get, update, and delete the objects (resources and subjects — users, tenants, documents, folders, roles) that participate in the authorization model. Objects are identified by an object type and an object id and can carry arbitrary metadata.
+
+- **Base URL:** `https://api.warrant.dev/v1`
+- **Documentation:** [github.com/warrant-dev/warrant](https://github.com/warrant-dev/warrant)
+- [OpenAPI](openapi/warrant-dev-openapi.yml)
+
+### Warrant Relationships (Warrants) API
+
+Manage warrants — the access rules that assign a relation between a subject and an object. Create, list, query, and delete warrants; warrants are the Zanzibar-style relationship tuples the check engine evaluates.
+
+- **Base URL:** `https://api.warrant.dev/v1`
+- **Documentation:** [workos.com/docs/fga/warrants](https://workos.com/docs/fga/warrants)
+- [OpenAPI](openapi/warrant-dev-openapi.yml)
+
+### Warrant Check (Authorization) API
+
+The real-time, low-latency authorization surface. Check whether a subject has a given permission/relation on an object (`POST /v2/authorize`) and run relationship queries with the Warrant Query Language (`GET /v1/query`). This is the hot-path API applications called on every access decision.
+
+- **Base URL:** `https://api.warrant.dev`
+- **Documentation:** [workos.com/docs/fga](https://workos.com/docs/fga)
+- [OpenAPI](openapi/warrant-dev-openapi.yml)
+
+### Warrant Object Types API
+
+Define and manage the authorization model itself — the object (resource) types and the relations between them, including inheritance and implication rules. Create, list, get, update, and delete object types.
+
+- **Base URL:** `https://api.warrant.dev/v1`
+- **Documentation:** [workos.com/docs/fga/resource-types](https://workos.com/docs/fga/resource-types)
+- [OpenAPI](openapi/warrant-dev-openapi.yml)
+
+### Warrant Roles & Permissions API
+
+Convenience RBAC and entitlements surface built on top of objects and warrants — manage roles, permissions, users, tenants, features, and pricing tiers, and assign them to each other (a permission to a role, a role to a user, a user to a tenant, a feature to a pricing tier).
+
+- **Base URL:** `https://api.warrant.dev/v1`
+- **Documentation:** [workos.com/docs/fga](https://workos.com/docs/fga)
+- [OpenAPI](openapi/warrant-dev-openapi.yml)
+
+## Artifacts
+
+- [OpenAPI](openapi/warrant-dev-openapi.yml) — modeled from the documented v1/v2 API
+- [Postman Collection](collections/warrant-dev.postman_collection.json)
+- [Open Collection](collections/warrant-dev.opencollection.json)
+- [Authentication](authentication/warrant-dev-authentication.yml)
+- [Plans / Pricing](plans/warrant-dev-plans-pricing.yml)
+- [Rate Limits](rate-limits/warrant-dev-rate-limits.yml)
+- [FinOps](finops/warrant-dev-finops.yml)
+- [Domain Security](security/warrant-dev-domain-security.yml)
+- [Review](review.yml)
+
+## Open Source
+
+The core Warrant engine is open source under **Apache-2.0** and self-hostable via Docker ([github.com/warrant-dev/warrant](https://github.com/warrant-dev/warrant)), backed by MySQL, Postgres, or SQLite. Client SDKs (Node, Go, Java, React, Vue, JS) and `warrant-cli` are MIT/Apache licensed. The self-hosted engine exposes the same REST surface (default port `8000`) and remains usable independent of the retired hosted service.
+
+## Common Properties
+
+- [Authentication](authentication/warrant-dev-authentication.yml)
+- [Domain Security](security/warrant-dev-domain-security.yml)
+- [GitHub Organization](https://github.com/warrant-dev)
+- [LinkedIn](https://www.linkedin.com/company/warrant-dev)
+- [Website](https://warrant.dev)
+- [Documentation (WorkOS FGA, successor)](https://workos.com/docs/fga)
+- [Plans](plans/warrant-dev-plans-pricing.yml)
+- [Rate Limits](rate-limits/warrant-dev-rate-limits.yml)
+- [Fin Ops](finops/warrant-dev-finops.yml)
+
+## Maintainers
+
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
